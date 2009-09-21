@@ -15,6 +15,7 @@ public class Categorizer {
 	private Logbook logbook = Internals.LOGBOOK; //.internal();
 	
 	private FastList<Logbook> books = new FastList<Logbook>();
+	private Logbook search = new Logbook();
 	
 	// TODO: run() needs to iterate through all the items, checking if the event has already
 	// been added to some book. if not, add it, and the keywords to the book.
@@ -39,21 +40,73 @@ public class Categorizer {
 	
 	public void processFrame(ActionFrame a, Logbook l) {
 		for(String slot : a.getSlots()) {
-			AgentFrame f = (AgentFrame) a.getFiller(slot);
-			if(!f.getHeader().equals("")) {
-				for(String entry : f.getSlots()) {
-					if(!entry.equals(ActionFrameSlots.OBJECT) && !entry.equals(ActionFrameSlots.COOBJECT)) {
-						ActionFrame i = (ActionFrame) f.getFiller(entry);
-						if(convert(logbook.entries()).contains(i.getID())) {
-							if(!alreadyEntered(i)) {
-								l.add(i.getID(), i);
+			try {
+				AgentFrame f = (AgentFrame) a.getFiller(slot);
+				
+				if(!f.getHeader().equals("")) {
+					for(String entry : f.getSlots()) {
+						if(!entry.equals(ActionFrameSlots.OBJECT) && !entry.equals(ActionFrameSlots.COOBJECT)) {
+							ActionFrame i = (ActionFrame) f.getFiller(entry);
+							if(!alreadyEntered(i) && !alreadySearched(i)) {
+								if(convert(logbook.entries()).contains(i.getID())) {
+								//if(!alreadyEntered(i)) {
+									//processFrame(i,l);
+									l.add(i.getID(), i);
+								}
+								search.add(i.getID(), i);
 								processFrame(i, l);
 							}
+						} else {
+							if(entry.equals(ActionFrameSlots.OBJECT)) {
+								AgentFrame e = (AgentFrame) f.getFiller(ActionFrameSlots.OBJECT);
+								for(String kai : e.getSlots()) {
+									if(!kai.equals(ActionFrameSlots.OBJECT) && !kai.equals(ActionFrameSlots.COOBJECT)) {
+										ActionFrame i = (ActionFrame) e.getFiller(kai);
+										if(!alreadyEntered(i) && !alreadySearched(i)) {
+											if(convert(logbook.entries()).contains(i.getID())) {
+											//if(!alreadyEntered(i)) {
+												//processFrame(i,l);
+												l.add(i.getID(), i);
+											}
+											search.add(i.getID(), i);
+											processFrame(i, l);
+										}
+									}
+								}
+							} else {
+								AgentFrame e = (AgentFrame) f.getFiller(ActionFrameSlots.OBJECT);
+								for(String kai : e.getSlots()) {
+									if(!kai.equals(ActionFrameSlots.OBJECT) && !kai.equals(ActionFrameSlots.COOBJECT)) {
+										ActionFrame i = (ActionFrame) e.getFiller(kai);
+										if(!alreadyEntered(i) && !alreadySearched(i)) {
+											if(convert(logbook.entries()).contains(i.getID())) {
+											//if(!alreadyEntered(i)) {
+												//processFrame(i,l);
+												l.add(i.getID(), i);
+											}
+											search.add(i.getID(), i);
+											processFrame(i, l);
+										}
+									}
+								}
+							}
+							System.err.println(f.getAgent() + ":" + entry);
 						}
 					}
 				}
+			} catch(ClassCastException e) {
+				// skip it
 			}
 		}
+	}
+	
+	public boolean isNumber(String input) {
+		try {
+			Integer.parseInt(input);
+		} catch(NumberFormatException nfe) {
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean alreadyEntered(ActionFrame a) {
@@ -68,56 +121,14 @@ public class Categorizer {
 		return isAlreadyEntered;
 	}
 	
-	
-	public void generate() {
-		for(String key : logbook.entries()) {
-			ActionFrame a = logbook.get(key);
-			
-			boolean isUsed = false;
-			for(Logbook b : books) {
-				for(String e : b.entries()) {
-					if(e.equals(a.getID())) {
-						isUsed = true;
-					}
-				}
+	public boolean alreadySearched(ActionFrame a) {
+		boolean wasAlreadySearched = false;
+		for(String key : search.entries()) {
+			if(key.equals(a.getID())) {
+				wasAlreadySearched = true;
 			}
-			
-			if(!isUsed) {
-				Logbook l = new Logbook();
-				l.add(a.getID(), a);
-				
-				for(String slot : a.getSlots()) {
-					l.addKeyword(a.getFiller(slot).getHeader());
-				}
-				
-				for(String entry : logbook.entries()) {
-					ActionFrame d = logbook.get(entry);
-					if(d != a) {
-						boolean isFound = false;
-						for(String slot : d.getSlots()) {
-							String value = d.getFiller(slot).getHeader();
-							if(l.getKeywords().contains(value) && !value.equals("")) {
-								isFound = true;
-							}
-						}
-						if(isFound) {
-							l.add(d.getID(), d);
-							for(String slot : d.getSlots()) {
-								if(!l.getKeywords().contains(d.getFiller(slot).getHeader())) {
-									l.addKeyword(d.getFiller(slot).getHeader());
-								}
-							}
-						}
-					}
-				}
-				
-				books.add(l);
-				
-			}
-			
 		}
-		
-		System.err.println("Categorizer done.");
+		return wasAlreadySearched;
 	}
 	
 	public FastList<String> convert(Set<String> set) {

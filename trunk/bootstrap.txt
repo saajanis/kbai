@@ -1,0 +1,2 @@
+(105 (is-part-of(robber, robbers, , , , )))
+(106 (has-a(robber, pants, , , , )))
