@@ -12,6 +12,6 @@ public class Internals {
 	public static Glossary GLOSSARY = new Glossary();
 	public static Factbook FACTBOOK = new Factbook();
 	
-	public static Integer INDEX = new Integer(105);
+	public static Integer INDEX = new Integer(107);
 	
 }

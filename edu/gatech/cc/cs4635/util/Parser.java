@@ -19,10 +19,11 @@ public class Parser {
 	private boolean isEvent = false;
 	
 	public void generate(String facts, String events) {
+		System.err.print("Parser starting...");
 		loadFile(facts);
 		isEvent = true;
 		loadFile(events);
-		System.err.println("Parser done.");
+		System.err.println("done.");
 	}
 	
 	public void loadFile(String filename) {		
@@ -98,6 +99,8 @@ public class Parser {
 					
 					addFiller(action, ActionFrameSlots.OBJECT, toks.removeFirst());
 					addFiller(action, ActionFrameSlots.COOBJECT, toks.removeFirst());
+					
+					action.getFiller(ActionFrameSlots.COOBJECT).addFiller(action.getID(), action);
 				}
 			} else {
 				if(isEvent) {
@@ -121,10 +124,12 @@ public class Parser {
 				
 						addFiller((AgentFrame) action.getFiller(ActionFrameSlots.OBJECT), ActionFrameSlots.OBJECT, toks.removeFirst());
 						addFiller((AgentFrame) action.getFiller(ActionFrameSlots.OBJECT), ActionFrameSlots.COOBJECT, toks.removeFirst());
+						
+						action.getFiller(ActionFrameSlots.OBJECT).getFiller(ActionFrameSlots.COOBJECT).addFiller(action.getID(), action);
 					}
 				} else {
 					if(result.length < 3) {
-						System.err.println(token);
+						//System.err.println(token);
 						result = token.split("\\s");
 						if(result.length < 2) {
 							result = token.split("\\(");
@@ -135,6 +140,9 @@ public class Parser {
 							token = result[1].trim().substring(1, result[1].trim().length()-1);
 							addFiller(a, ActionFrameSlots.AGENT, token);
 							Internals.GLOSSARY.get(token).addFiller(a.getID(), a);
+							
+							a.getFiller(ActionFrameSlots.AGENT).addFiller(a.getID(), a);
+							//a.getFiller(ActionFrameSlots.OBJECT).addFiller(a.getID(), a);
 						} else {
 							result = token.split("\\(");
 							ActionFrame a = new ActionFrame(Internals.INDEX.toString(), result[0]);
@@ -142,6 +150,7 @@ public class Parser {
 							action.addFiller(ActionFrameSlots.OBJECT, a);
 							result = token.split("^[\\w-]*");
 							token = result[1].trim().substring(1, result[1].trim().length()-1);
+							//System.err.println(token);
 							StringTokenizer tokenizer = new StringTokenizer(token, " ");
 							FastList<String> toks = new FastList<String>(2);
 							while(tokenizer.hasMoreTokens()) {
@@ -152,19 +161,27 @@ public class Parser {
 							addFiller(a, ActionFrameSlots.AGENT, tok);
 							Internals.GLOSSARY.get(tok).addFiller(a.getID(), a);
 							addFiller(a, ActionFrameSlots.OBJECT, toks.removeFirst());
+							
+							a.getFiller(ActionFrameSlots.AGENT).addFiller(a.getID(), a);
+							a.getFiller(ActionFrameSlots.OBJECT).addFiller(a.getID(), a);
 						}
 					} else {
 						ActionFrame a = new ActionFrame(Internals.INDEX.toString(), result[0]);
 						Internals.INDEX++;
 						action.addFiller(ActionFrameSlots.OBJECT, a);
 						result = token.split("^[\\w-]*");
-						token = result[1].trim().substring(1, result[1].trim().length()-1);
+						token = result[1].trim().substring(1, result[1].trim().length()-2);
+						//System.err.println(token);
 						result = token.split("\\(");
 						addFiller(a, ActionFrameSlots.AGENT, result[0]);
 						Internals.GLOSSARY.get(result[0]).addFiller(a.getID(), a);
 						result = token.split("^[\\w-]*");
 						token = result[1].trim().substring(1, result[1].trim().length()-1);
 						addFiller(a, ActionFrameSlots.OBJECT, token);
+						//System.err.println(token);
+						
+						a.getFiller(ActionFrameSlots.AGENT).addFiller(a.getID(), a);
+						a.getFiller(ActionFrameSlots.OBJECT).addFiller(a.getID(), a);
 					}
 				}
 			}
