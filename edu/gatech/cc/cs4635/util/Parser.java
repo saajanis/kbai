@@ -33,7 +33,7 @@ public class Parser {
 			
 			while(br.ready()) {
 				String line = br.readLine();
-				System.err.println(line);
+				//System.err.println(line);
 				parse(line);
 			}
 			
