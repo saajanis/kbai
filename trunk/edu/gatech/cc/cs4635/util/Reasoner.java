@@ -1,5 +1,6 @@
 package edu.gatech.cc.cs4635.util;
 
+import edu.gatech.cc.cs4635.core.Internals;
 import edu.gatech.cc.cs4635.lang.ActionFrame;
 import edu.gatech.cc.cs4635.lang.ActionFrameSlots;
 import edu.gatech.cc.cs4635.lang.Logbook;
@@ -23,10 +24,13 @@ public class Reasoner {
 			}
 		}
 		
+		System.err.println("Reasoner Output (Causal Chain)");
 		for(Logbook l : chains) {
 			System.out.println(".:Chain:.");
 			l.debug();
 		}
+		
+		//Internals.GLOSSARY.get("robbers").debug();
 	}
 	
 	public void buildChain(Logbook cluster, Logbook chain, ActionFrame a) {

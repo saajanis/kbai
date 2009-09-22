@@ -35,8 +35,9 @@ public class Categorizer {
 				l.add(a.getID(), a);
 				books.add(l);
 				
+				//System.out.println("THOUGHT PROCESS: ");
 				processFrame(a, l);
-				
+				//System.out.println("DONE.\n");
 
 			}
 		}
@@ -58,6 +59,7 @@ public class Categorizer {
 								//if(!alreadyEntered(i)) {
 									//processFrame(i,l);
 									l.add(i.getID(), i);
+									//f.debug();
 								}
 								search.add(i.getID(), i);
 								processFrame(i, l);
@@ -73,6 +75,7 @@ public class Categorizer {
 											//if(!alreadyEntered(i)) {
 												//processFrame(i,l);
 												l.add(i.getID(), i);
+												//e.debug();
 											}
 											search.add(i.getID(), i);
 											processFrame(i, l);
@@ -89,6 +92,7 @@ public class Categorizer {
 											//if(!alreadyEntered(i)) {
 												//processFrame(i,l);
 												l.add(i.getID(), i);
+												//e.debug();
 											}
 											search.add(i.getID(), i);
 											processFrame(i, l);

@@ -22,11 +22,15 @@ public class Sandbox {
 		
 		//Internals.GLOSSARY.get("steamy-photos").debug();
 		
+		System.err.println("Knowledge Output:");
+		Internals.GLOSSARY.debug();
+		
 		Categorizer categorizer = new Categorizer();
 		//categorizer.generate();
 		categorizer.categorize();
 		
-		//categorizer.debug();
+		System.err.println("Categorizer Output:");
+		categorizer.debug();
 		
 		Reasoner reasoner = new Reasoner();
 		reasoner.processClusters(categorizer.getClusters());
