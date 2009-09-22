@@ -1,0 +1,15 @@
+entered-car:none:came-from
+came-from:entered-car:opened
+opened:came-from:attempted-snatch
+attempted-snatch:opened:snatch
+snatch:attempted-snatch:pulled-from
+pulled-from:snatch:hit
+hit:pulled-from:knocked-down
+knocked-down:hit:yelled
+yelled:knocked-down:ran-away-without
+ran-away-without:yelled:none
+parked:none:walked-toward
+walked-toward:parked:grabbed
+grabbed:walked-toward:got-scared
+got-scared:grabbed:run-away
+run-away:got-scared:none

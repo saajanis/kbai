@@ -3,6 +3,7 @@ package edu.gatech.cc.cs4635.core;
 import edu.gatech.cc.cs4635.util.Bootstrapper;
 import edu.gatech.cc.cs4635.util.Categorizer;
 import edu.gatech.cc.cs4635.util.Parser;
+import edu.gatech.cc.cs4635.util.Reasoner;
 
 public class Sandbox {
 
@@ -11,8 +12,10 @@ public class Sandbox {
 	 */
 	public static void main(String[] args) {	
 		
-//		Bootstrapper bootstrapper = new Bootstrapper();
+		Bootstrapper bootstrapper = new Bootstrapper();
 //		bootstrapper.loadFile(args[0]);
+		bootstrapper.loadLexicon();
+	
 		
 		Parser parser = new Parser();
 		parser.generate(args[0], args[1]);
@@ -23,18 +26,10 @@ public class Sandbox {
 		//categorizer.generate();
 		categorizer.categorize();
 		
-		categorizer.debug();
+		//categorizer.debug();
 		
-////		String line = "fuck(you me)";
-		//String line = "were-unfortunate(steamy-photos(john torch)))";
-//		String line = "are(moral-values important)";
-//		String[] result = line.split("\\(");
-//		System.err.println(result.length + ":" + result[0] + " ^ "+ result[1]);
-//		result = line.split("\\s");
-//		System.err.println(result.length + ":" + result[0] + " ^ "+ result[1]);
-		
-		
-
+		Reasoner reasoner = new Reasoner();
+		reasoner.processClusters(categorizer.getClusters());
 	}
 
 }

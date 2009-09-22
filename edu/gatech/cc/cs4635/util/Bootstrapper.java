@@ -6,6 +6,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.StringTokenizer;
+
+import edu.gatech.cc.cs4635.core.Internals;
+import edu.gatech.cc.cs4635.lang.ActionFrame;
+import edu.gatech.cc.cs4635.lang.ActionFrameSlots;
+
+import javolution.util.FastList;
 
 public class Bootstrapper {
 	
@@ -28,5 +35,38 @@ public class Bootstrapper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void loadLexicon() {
+		try {
+			
+			BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/lexicon.txt"));
+			
+			while(br.ready()) {
+				String line = br.readLine();
+				updateLexicon(line);
+			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateLexicon(String line) {
+		StringTokenizer st = new StringTokenizer(line, ":");
+		FastList<String> tokens = new FastList<String>(3);
+		while(st.hasMoreTokens()) {
+			tokens.add(st.nextToken());
+		}
+		
+		ActionFrame a = new ActionFrame("0", tokens.removeFirst());
+		a.addFiller(ActionFrameSlots.PRECONDITION, new ActionFrame("0", tokens.removeFirst()));
+		a.addFiller(ActionFrameSlots.POSTCONDITION, new ActionFrame("0", tokens.removeFirst()));
+		
+		Internals.LEXICON.add(a.getAction(), a);
 	}
 }
