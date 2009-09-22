@@ -33,6 +33,7 @@ public class Parser {
 			
 			while(br.ready()) {
 				String line = br.readLine();
+				System.err.println(line);
 				parse(line);
 			}
 			
@@ -57,6 +58,12 @@ public class Parser {
 		
 		split = line.split("\\(.*\\)");
 		ActionFrame action = new ActionFrame(id, split[0]);
+		
+		ActionFrame template = Internals.LEXICON.get(split[0]);
+		if(template != null) {
+			action.addFiller(ActionFrameSlots.PRECONDITION, template.getFiller(ActionFrameSlots.PRECONDITION));
+			action.addFiller(ActionFrameSlots.POSTCONDITION, template.getFiller(ActionFrameSlots.POSTCONDITION));
+		}
 		
 		split = line.split("^[\\w-]*");
 		line = split[split.length-1];

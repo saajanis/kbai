@@ -20,7 +20,13 @@ public class Categorizer {
 	// TODO: run() needs to iterate through all the items, checking if the event has already
 	// been added to some book. if not, add it, and the keywords to the book.
 	
+	public FastList<Logbook> getClusters() {
+		return books;
+	}
+	
 	public void categorize() {
+		System.err.print("Categorizer starting...");
+		
 		for(String key : logbook.entries()) {
 			ActionFrame a = logbook.get(key);
 			
@@ -35,7 +41,7 @@ public class Categorizer {
 			}
 		}
 		
-		System.err.println("Categorizer done.");
+		System.err.println("done.");
 	}
 	
 	public void processFrame(ActionFrame a, Logbook l) {
@@ -90,7 +96,7 @@ public class Categorizer {
 									}
 								}
 							}
-							System.err.println(f.getAgent() + ":" + entry);
+							//System.err.println(f.getAgent() + ":" + entry);
 						}
 					}
 				}

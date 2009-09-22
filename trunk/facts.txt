@@ -26,4 +26,4 @@
 (97 (exists-because(foot-and-mouth-disease , threat , , , )))
 (101 (has-goal(agriculture-department , test 220000-animals , , , december-2005 )))
 (98 (needed(stronger-measures , protect-from-mad-cow-disease , , , )))
-(105 (made-of(robbers, robber, , , , )))
+(105 (is-part-of(robber, robbers , , , )))
