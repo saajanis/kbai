@@ -1,5 +1,6 @@
 package edu.gatech.cc.cs4635.util;
 
+import edu.gatech.cc.cs4635.core.Internals;
 import edu.gatech.cc.cs4635.lang.ActionFrame;
 import edu.gatech.cc.cs4635.lang.ActionFrameSlot;
 import edu.gatech.cc.cs4635.lang.Logbook;
@@ -30,6 +31,10 @@ public class Reasoner {
 		}
 		
 		//Internals.GLOSSARY.get("robbers").debug();
+	}
+	
+	public FastList<Logbook> getChains() {
+		return chains;
 	}
 	
 	public void buildChain(Logbook cluster, Logbook chain, ActionFrame a) {

@@ -1,8 +1,10 @@
 package edu.gatech.cc.cs4635.core;
 
+import edu.gatech.cc.cs4635.util.Arbiter;
 import edu.gatech.cc.cs4635.util.Bootstrapper;
 import edu.gatech.cc.cs4635.util.Categorizer;
 import edu.gatech.cc.cs4635.util.Parser;
+import edu.gatech.cc.cs4635.util.Planner;
 import edu.gatech.cc.cs4635.util.Reasoner;
 
 public class Application {
@@ -22,18 +24,31 @@ public class Application {
 		
 		//Internals.GLOSSARY.get("steamy-photos").debug();
 		
-		System.err.println("Knowledge Output:");
-		Internals.GLOSSARY.debug();
+//		System.err.println("Knowledge Output:");
+//		Internals.GLOSSARY.debug();
 		
 		Categorizer categorizer = new Categorizer();
 		//categorizer.generate();
 		categorizer.categorize();
 		
-		System.err.println("Categorizer Output:");
-		categorizer.debug();
+//		System.err.println("Categorizer Output:");
+//		categorizer.debug();
 		
 		Reasoner reasoner = new Reasoner();
 		reasoner.processClusters(categorizer.getClusters());
+		
+		Planner planner = new Planner();
+		planner.generate("planner.txt");
+		planner.debug();
+		planner.associate(reasoner.getChains());
+		//planner.displayAssociations();
+		
+		Arbiter arbiter = new Arbiter();
+		arbiter.evaluate(planner.getAssociations());
+		
+		
+		//Internals.LOGBOOK.debug();
+		
 	}
 
 }
