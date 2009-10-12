@@ -9,7 +9,7 @@ public class Plan extends Storage<ActionFrame> {
 	public Plan(ActionFrame frame) {
 		setGoal(frame);
 	}
-	
+
 	public void setGoal(ActionFrame frame) {
 		goal = frame;
 	}
@@ -18,4 +18,8 @@ public class Plan extends Storage<ActionFrame> {
 		return goal;
 	}
 
+	public void verbose() {
+		System.out.println("-=" + goal.getHeader() + "=-");
+		debug();
+	}
 }
