@@ -1,15 +1,36 @@
-entered-car:none:came-from
-came-from:entered-car:opened
-opened:came-from:attempted-snatch
-attempted-snatch:opened:snatch
-snatch:attempted-snatch:pulled-from
-pulled-from:snatch:hit
-hit:pulled-from:knocked-down
-knocked-down:hit:yelled
-yelled:knocked-down:ran-away-without
-ran-away-without:yelled:none
-parked:none:walked-toward
-walked-toward:parked:grabbed
-grabbed:walked-toward:got-scared
-got-scared:grabbed:run-away
-run-away:got-scared:none
+(28 (entered-car( none , in-car )))
+(30 (came-from( in-car , near-car )))
+(31 (opened( near-car , door-open )))
+(34 (attempted-snatch( door-open, failed )))
+(29 (snatch( failed, success )))
+(33 (pulled-from( success, outside-of-car )))
+(35 (hit( outside-of-car , hit-hard )))
+(36 (knocked-down( hit-hard , injured )))
+(32 (yelled( injured , loud-noise )))
+(37 (ran-away-without( loud-noise , none )))
+(38 (parked( none , in-parking-lot )))
+(39 (walked-toward( in-parking-lot , at-market )))
+(42 (grabbed( at-market, scary-situation )))
+(41 (got-scared( scary-situation , scared )))
+(43 (run-away( scared , none )))
+(19 (go-to( none , at-store )))
+(20 (give( at-store, check-with-clerk )))
+(21 (give( check-with-clerk, check-and-id-with-clerk )))
+(23 (suspect( check-and-id-with-clerk , suspicious )))
+(24 (call( suspicious , police-on-the-way )))
+(25 (run-away( police-on-the-way , on-the-loose )))
+(27 (get-away( on-the-loose , disappeared )))
+(26 (chase-down( disappeared , on-tail )))
+(22 (get-caught( on-tail , none )))
+(51 (runs-for( none , in-the-spotlight )))
+(64 (were-taken( in-the-spotlight, sent-to-press )))
+(5 (print( sent-to-press , appear-in-magazine )))
+(49 (requested( appear-in-magazine , received-request )))
+(50 (refused( received-request , continues-race )))
+(69 (decreased( continues-race , heavy-resistance )))
+(2 (drops-out( heavy-resistance , none )))
+(59 (signed-contract( none , order-for-machines )))
+(60 (installed( order-for-machines , deployed )))
+(71 (had-problems( deployed , ineffective )))
+(72 (asked-to-investigate( ineffective , request-report )))
+(73 (pledged-answer( request-report , none )))

@@ -59,7 +59,7 @@ public class Parser {
 		split = line.split("\\(.*\\)");
 		ActionFrame action = new ActionFrame(id, split[0]);
 		
-		ActionFrame template = Internals.LEXICON.get(split[0]);
+		ActionFrame template = Internals.LEXICON.get(id);
 		if(template != null) {
 			action.addFiller(ActionFrameSlot.PRECONDITION, template.getFiller(ActionFrameSlot.PRECONDITION));
 			action.addFiller(ActionFrameSlot.POSTCONDITION, template.getFiller(ActionFrameSlot.POSTCONDITION));
