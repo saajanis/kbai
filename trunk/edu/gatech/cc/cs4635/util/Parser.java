@@ -10,9 +10,9 @@ import javolution.util.FastList;
 
 import edu.gatech.cc.cs4635.core.Internals;
 import edu.gatech.cc.cs4635.lang.ActionFrame;
-import edu.gatech.cc.cs4635.lang.ActionFrameSlots;
+import edu.gatech.cc.cs4635.lang.ActionFrameSlot;
 import edu.gatech.cc.cs4635.lang.AgentFrame;
-import edu.gatech.cc.cs4635.lang.Frame;
+import edu.gatech.cc.cs4635.lang.base.Frame;
 
 public class Parser {
 	
@@ -61,8 +61,8 @@ public class Parser {
 		
 		ActionFrame template = Internals.LEXICON.get(split[0]);
 		if(template != null) {
-			action.addFiller(ActionFrameSlots.PRECONDITION, template.getFiller(ActionFrameSlots.PRECONDITION));
-			action.addFiller(ActionFrameSlots.POSTCONDITION, template.getFiller(ActionFrameSlots.POSTCONDITION));
+			action.addFiller(ActionFrameSlot.PRECONDITION, template.getFiller(ActionFrameSlot.PRECONDITION));
+			action.addFiller(ActionFrameSlot.POSTCONDITION, template.getFiller(ActionFrameSlot.POSTCONDITION));
 		}
 		
 		split = line.split("^[\\w-]*");
@@ -78,13 +78,13 @@ public class Parser {
 		String token = tokens.removeFirst();
 		split = token.split("\\(");
 		if(split.length < 2) {
-			addFiller(action, ActionFrameSlots.AGENT, token);
+			addFiller(action, ActionFrameSlot.AGENT, token);
 		} else {
 			split = token.split("\\(");
-			addFiller(action, ActionFrameSlots.AGENT, split[0]);
+			addFiller(action, ActionFrameSlot.AGENT, split[0]);
 			split = token.split("^[\\w-]*");
 			token = split[1].trim().substring(1, split[1].trim().length()-1);
-			addFiller(action, ActionFrameSlots.OBJECT, token);
+			addFiller(action, ActionFrameSlot.OBJECT, token);
 		}
 		
 		Internals.GLOSSARY.get(token).addFiller(action.getID(), action);
@@ -96,7 +96,7 @@ public class Parser {
 			if(result.length < 2) {
 				result = token.split("\\s");
 				if(result.length < 2) {
-					addFiller(action, ActionFrameSlots.OBJECT, token);
+					addFiller(action, ActionFrameSlot.OBJECT, token);
 				} else {
 					StringTokenizer tokenizer = new StringTokenizer(token, " ");
 					FastList<String> toks = new FastList<String>(2);
@@ -104,23 +104,23 @@ public class Parser {
 						toks.add(tokenizer.nextToken());
 					}
 					
-					addFiller(action, ActionFrameSlots.OBJECT, toks.removeFirst());
-					addFiller(action, ActionFrameSlots.COOBJECT, toks.removeFirst());
+					addFiller(action, ActionFrameSlot.OBJECT, toks.removeFirst());
+					addFiller(action, ActionFrameSlot.COOBJECT, toks.removeFirst());
 					
-					action.getFiller(ActionFrameSlots.COOBJECT).addFiller(action.getID(), action);
+					action.getFiller(ActionFrameSlot.COOBJECT).addFiller(action.getID(), action);
 				}
 			} else {
 				if(isEvent) {
 					result = token.split("\\s");
 					if(result.length < 2) {
 						result = token.split("\\(");
-						addFiller(action, ActionFrameSlots.OBJECT, result[0]);
+						addFiller(action, ActionFrameSlot.OBJECT, result[0]);
 						result = token.split("^[\\w-]*");
 						token = result[1].trim().substring(1, result[1].trim().length()-1);
-						addFiller((AgentFrame) action.getFiller(ActionFrameSlots.OBJECT), ActionFrameSlots.OBJECT, token);
+						addFiller((AgentFrame) action.getFiller(ActionFrameSlot.OBJECT), ActionFrameSlot.OBJECT, token);
 					} else {
 						result = token.split("\\(");
-						addFiller(action, ActionFrameSlots.OBJECT, result[0]);
+						addFiller(action, ActionFrameSlot.OBJECT, result[0]);
 						result = token.split("^[\\w-]*");
 						token = result[1].trim().substring(1, result[1].trim().length()-1);
 						StringTokenizer tokenizer = new StringTokenizer(token, " ");
@@ -129,10 +129,10 @@ public class Parser {
 							toks.add(tokenizer.nextToken());
 						}
 				
-						addFiller((AgentFrame) action.getFiller(ActionFrameSlots.OBJECT), ActionFrameSlots.OBJECT, toks.removeFirst());
-						addFiller((AgentFrame) action.getFiller(ActionFrameSlots.OBJECT), ActionFrameSlots.COOBJECT, toks.removeFirst());
+						addFiller((AgentFrame) action.getFiller(ActionFrameSlot.OBJECT), ActionFrameSlot.OBJECT, toks.removeFirst());
+						addFiller((AgentFrame) action.getFiller(ActionFrameSlot.OBJECT), ActionFrameSlot.COOBJECT, toks.removeFirst());
 						
-						action.getFiller(ActionFrameSlots.OBJECT).getFiller(ActionFrameSlots.COOBJECT).addFiller(action.getID(), action);
+						action.getFiller(ActionFrameSlot.OBJECT).getFiller(ActionFrameSlot.COOBJECT).addFiller(action.getID(), action);
 					}
 				} else {
 					if(result.length < 3) {
@@ -142,19 +142,19 @@ public class Parser {
 							result = token.split("\\(");
 							ActionFrame a = new ActionFrame(Internals.INDEX.toString(), result[0]);
 							Internals.INDEX++;
-							action.addFiller(ActionFrameSlots.OBJECT, a);
+							action.addFiller(ActionFrameSlot.OBJECT, a);
 							result = token.split("^[\\w-]*");
 							token = result[1].trim().substring(1, result[1].trim().length()-1);
-							addFiller(a, ActionFrameSlots.AGENT, token);
+							addFiller(a, ActionFrameSlot.AGENT, token);
 							Internals.GLOSSARY.get(token).addFiller(a.getID(), a);
 							
-							a.getFiller(ActionFrameSlots.AGENT).addFiller(a.getID(), a);
+							a.getFiller(ActionFrameSlot.AGENT).addFiller(a.getID(), a);
 							//a.getFiller(ActionFrameSlots.OBJECT).addFiller(a.getID(), a);
 						} else {
 							result = token.split("\\(");
 							ActionFrame a = new ActionFrame(Internals.INDEX.toString(), result[0]);
 							Internals.INDEX++;
-							action.addFiller(ActionFrameSlots.OBJECT, a);
+							action.addFiller(ActionFrameSlot.OBJECT, a);
 							result = token.split("^[\\w-]*");
 							token = result[1].trim().substring(1, result[1].trim().length()-1);
 							//System.err.println(token);
@@ -165,74 +165,55 @@ public class Parser {
 							}
 							
 							String tok = toks.removeFirst();
-							addFiller(a, ActionFrameSlots.AGENT, tok);
+							addFiller(a, ActionFrameSlot.AGENT, tok);
 							Internals.GLOSSARY.get(tok).addFiller(a.getID(), a);
-							addFiller(a, ActionFrameSlots.OBJECT, toks.removeFirst());
+							addFiller(a, ActionFrameSlot.OBJECT, toks.removeFirst());
 							
-							a.getFiller(ActionFrameSlots.AGENT).addFiller(a.getID(), a);
-							a.getFiller(ActionFrameSlots.OBJECT).addFiller(a.getID(), a);
+							a.getFiller(ActionFrameSlot.AGENT).addFiller(a.getID(), a);
+							a.getFiller(ActionFrameSlot.OBJECT).addFiller(a.getID(), a);
 						}
 					} else {
 						ActionFrame a = new ActionFrame(Internals.INDEX.toString(), result[0]);
 						Internals.INDEX++;
-						action.addFiller(ActionFrameSlots.OBJECT, a);
+						action.addFiller(ActionFrameSlot.OBJECT, a);
 						result = token.split("^[\\w-]*");
 						token = result[1].trim().substring(1, result[1].trim().length()-2);
 						//System.err.println(token);
 						result = token.split("\\(");
-						addFiller(a, ActionFrameSlots.AGENT, result[0]);
+						addFiller(a, ActionFrameSlot.AGENT, result[0]);
 						Internals.GLOSSARY.get(result[0]).addFiller(a.getID(), a);
 						result = token.split("^[\\w-]*");
 						token = result[1].trim().substring(1, result[1].trim().length()-1);
-						addFiller(a, ActionFrameSlots.OBJECT, token);
+						addFiller(a, ActionFrameSlot.OBJECT, token);
 						//System.err.println(token);
 						
-						a.getFiller(ActionFrameSlots.AGENT).addFiller(a.getID(), a);
-						a.getFiller(ActionFrameSlots.OBJECT).addFiller(a.getID(), a);
+						a.getFiller(ActionFrameSlot.AGENT).addFiller(a.getID(), a);
+						a.getFiller(ActionFrameSlot.OBJECT).addFiller(a.getID(), a);
 					}
 				}
 			}
-			// YIKES
-			action.getFiller(ActionFrameSlots.OBJECT).addFiller(action.getID(), action);
+			action.getFiller(ActionFrameSlot.OBJECT).addFiller(action.getID(), action);
 		}
 	
-		//action.getFiller(A)
-
-		
-		token = tokens.removeFirst();
+		// ActionFrameSlots.LOCATION
+		token = tokens.removeFirst().trim();
 		if(!tokens.equals("")) {
-			AgentFrame location = Internals.GLOSSARY.get(token);
-			
-			if(location != null) {
-				action.addFiller(ActionFrameSlots.LOCATION, location);
-			} else {
-				action.addFiller(ActionFrameSlots.LOCATION, new AgentFrame(token));
-				Internals.GLOSSARY.add(token, (AgentFrame) action.getFiller(ActionFrameSlots.LOCATION));
-			}
-			
-			// YIKES
-			action.getFiller(ActionFrameSlots.LOCATION).addFiller(action.getID(), action);
+			addFiller(action, ActionFrameSlot.LOCATION, token);
+			action.getFiller(ActionFrameSlot.LOCATION).addFiller(action.getID(), action);
 		}
 		
-		token = tokens.removeFirst();
+		// ActionFrameSlots.COAGENT
+		token = tokens.removeFirst().trim();
 		if(!tokens.equals("")) {
-			AgentFrame coagent = Internals.GLOSSARY.get(token);
-			
-			if(coagent != null) {
-				action.addFiller(ActionFrameSlots.COAGENT, coagent);
-			} else {
-				action.addFiller(ActionFrameSlots.COAGENT, new AgentFrame(token));
-				Internals.GLOSSARY.add(token, (AgentFrame) action.getFiller(ActionFrameSlots.COAGENT));
-			}
-			
-			// YIKES
-			action.getFiller(ActionFrameSlots.COAGENT).addFiller(action.getID(), action);
+			addFiller(action, ActionFrameSlot.COAGENT, token);
+			action.getFiller(ActionFrameSlot.COAGENT).addFiller(action.getID(), action);
 		}
 		
-		token = tokens.removeFirst();
+		// ActionFrameSlots.TIME
+		token = tokens.removeFirst().trim();
 		if(!tokens.equals("")) {
 			AgentFrame time = new AgentFrame(token);
-			action.addFiller(ActionFrameSlots.TIME, time);
+			action.addFiller(ActionFrameSlot.TIME, time);
 		}
 		
 		if(isEvent) {

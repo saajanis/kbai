@@ -4,6 +4,7 @@ import edu.gatech.cc.cs4635.lang.Factbook;
 import edu.gatech.cc.cs4635.lang.Glossary;
 import edu.gatech.cc.cs4635.lang.Lexicon;
 import edu.gatech.cc.cs4635.lang.Logbook;
+import edu.gatech.cc.cs4635.lang.PlanPool;
 
 public class Internals {
 
@@ -11,6 +12,7 @@ public class Internals {
 	public static Logbook LOGBOOK = new Logbook();
 	public static Glossary GLOSSARY = new Glossary();
 	public static Factbook FACTBOOK = new Factbook();
+	public static PlanPool PLANPOOL = new PlanPool();
 	
 	public static Integer INDEX = new Integer(500);
 	

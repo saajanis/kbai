@@ -1,6 +1,7 @@
-package edu.gatech.cc.cs4635.lang;
+package edu.gatech.cc.cs4635.lang.base;
 
 import java.util.Set;
+
 
 import javolution.util.FastMap;
 

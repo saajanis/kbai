@@ -5,10 +5,10 @@ import java.util.Set;
 import javolution.util.FastList;
 import edu.gatech.cc.cs4635.core.Internals;
 import edu.gatech.cc.cs4635.lang.ActionFrame;
-import edu.gatech.cc.cs4635.lang.ActionFrameSlots;
+import edu.gatech.cc.cs4635.lang.ActionFrameSlot;
 import edu.gatech.cc.cs4635.lang.AgentFrame;
-import edu.gatech.cc.cs4635.lang.Frame;
 import edu.gatech.cc.cs4635.lang.Logbook;
+import edu.gatech.cc.cs4635.lang.base.Frame;
 
 public class Categorizer {
 
@@ -52,7 +52,7 @@ public class Categorizer {
 				
 				if(!f.getHeader().equals("")) {
 					for(String entry : f.getSlots()) {
-						if(!entry.equals(ActionFrameSlots.OBJECT) && !entry.equals(ActionFrameSlots.COOBJECT)) {
+						if(!entry.equals(ActionFrameSlot.OBJECT) && !entry.equals(ActionFrameSlot.COOBJECT)) {
 							ActionFrame i = (ActionFrame) f.getFiller(entry);
 							if(!alreadyEntered(i) && !alreadySearched(i)) {
 								if(convert(logbook.entries()).contains(i.getID())) {
@@ -65,10 +65,10 @@ public class Categorizer {
 								processFrame(i, l);
 							}
 						} else {
-							if(entry.equals(ActionFrameSlots.OBJECT)) {
-								AgentFrame e = (AgentFrame) f.getFiller(ActionFrameSlots.OBJECT);
+							if(entry.equals(ActionFrameSlot.OBJECT)) {
+								AgentFrame e = (AgentFrame) f.getFiller(ActionFrameSlot.OBJECT);
 								for(String kai : e.getSlots()) {
-									if(!kai.equals(ActionFrameSlots.OBJECT) && !kai.equals(ActionFrameSlots.COOBJECT)) {
+									if(!kai.equals(ActionFrameSlot.OBJECT) && !kai.equals(ActionFrameSlot.COOBJECT)) {
 										ActionFrame i = (ActionFrame) e.getFiller(kai);
 										if(!alreadyEntered(i) && !alreadySearched(i)) {
 											if(convert(logbook.entries()).contains(i.getID())) {
@@ -83,9 +83,9 @@ public class Categorizer {
 									}
 								}
 							} else {
-								AgentFrame e = (AgentFrame) f.getFiller(ActionFrameSlots.OBJECT);
+								AgentFrame e = (AgentFrame) f.getFiller(ActionFrameSlot.OBJECT);
 								for(String kai : e.getSlots()) {
-									if(!kai.equals(ActionFrameSlots.OBJECT) && !kai.equals(ActionFrameSlots.COOBJECT)) {
+									if(!kai.equals(ActionFrameSlot.OBJECT) && !kai.equals(ActionFrameSlot.COOBJECT)) {
 										ActionFrame i = (ActionFrame) e.getFiller(kai);
 										if(!alreadyEntered(i) && !alreadySearched(i)) {
 											if(convert(logbook.entries()).contains(i.getID())) {

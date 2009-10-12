@@ -10,7 +10,7 @@ import java.util.StringTokenizer;
 
 import edu.gatech.cc.cs4635.core.Internals;
 import edu.gatech.cc.cs4635.lang.ActionFrame;
-import edu.gatech.cc.cs4635.lang.ActionFrameSlots;
+import edu.gatech.cc.cs4635.lang.ActionFrameSlot;
 
 import javolution.util.FastList;
 
@@ -64,8 +64,8 @@ public class Bootstrapper {
 		}
 		
 		ActionFrame a = new ActionFrame("0", tokens.removeFirst());
-		a.addFiller(ActionFrameSlots.PRECONDITION, new ActionFrame("0", tokens.removeFirst()));
-		a.addFiller(ActionFrameSlots.POSTCONDITION, new ActionFrame("0", tokens.removeFirst()));
+		a.addFiller(ActionFrameSlot.PRECONDITION, new ActionFrame("0", tokens.removeFirst()));
+		a.addFiller(ActionFrameSlot.POSTCONDITION, new ActionFrame("0", tokens.removeFirst()));
 		
 		Internals.LEXICON.add(a.getAction(), a);
 	}
