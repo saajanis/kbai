@@ -5,7 +5,7 @@ import edu.gatech.cc.cs4635.util.Categorizer;
 import edu.gatech.cc.cs4635.util.Parser;
 import edu.gatech.cc.cs4635.util.Reasoner;
 
-public class Sandbox {
+public class Application {
 
 	/**
 	 * @param args

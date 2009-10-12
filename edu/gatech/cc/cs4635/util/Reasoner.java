@@ -1,8 +1,7 @@
 package edu.gatech.cc.cs4635.util;
 
-import edu.gatech.cc.cs4635.core.Internals;
 import edu.gatech.cc.cs4635.lang.ActionFrame;
-import edu.gatech.cc.cs4635.lang.ActionFrameSlots;
+import edu.gatech.cc.cs4635.lang.ActionFrameSlot;
 import edu.gatech.cc.cs4635.lang.Logbook;
 import javolution.util.FastList;
 
@@ -14,8 +13,8 @@ public class Reasoner {
 		for(Logbook l : clusters) {
 			for(String key : l.entries()) {
 				ActionFrame a = l.get(key);
-				if(a.getFiller(ActionFrameSlots.PRECONDITION) != null) {
-					if(a.getFiller(ActionFrameSlots.PRECONDITION).getHeader().equals("none")) {
+				if(a.getFiller(ActionFrameSlot.PRECONDITION) != null) {
+					if(a.getFiller(ActionFrameSlot.PRECONDITION).getHeader().equals("none")) {
 						Logbook chain = new Logbook();
 						buildChain(l, chain, a);
 						chains.add(chain);
@@ -38,8 +37,8 @@ public class Reasoner {
 		for(String key : cluster.entries()) {
 			ActionFrame b = cluster.get(key);
 			//System.err.println(b.getAction());
-			String pre = b.getFiller(ActionFrameSlots.PRECONDITION).getHeader();
-			String post = a.getFiller(ActionFrameSlots.POSTCONDITION).getHeader();
+			String pre = b.getFiller(ActionFrameSlot.PRECONDITION).getHeader();
+			String post = a.getFiller(ActionFrameSlot.POSTCONDITION).getHeader();
 			if(pre.equals(a.getAction()) && post.equals(b.getAction())) {
 				buildChain(cluster, chain, b);
 				return;

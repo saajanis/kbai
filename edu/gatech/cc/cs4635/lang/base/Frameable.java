@@ -1,4 +1,4 @@
-package edu.gatech.cc.cs4635.lang;
+package edu.gatech.cc.cs4635.lang.base;
 
 public interface Frameable {
 	
