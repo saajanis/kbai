@@ -36,9 +36,16 @@ public class Arbiter {
 			associations.get(l).get(indexOfMax(hits)).debug();
 			System.out.print("Goal: ");
 			if(associations.get(l).size() > 1) {
-				System.out.println(findActor(l) + " most likely plan(s) to " + associations.get(l).get(indexOfMax(hits)).getGoal().getAction() + ".");
+				System.out.print(findActor(l) + " most likely plan(s) to " + associations.get(l).get(indexOfMax(hits)).getGoal().getAction() + ".");
 			} else {
-				System.out.println(findActor(l) + " plan(s) to " + associations.get(l).get(indexOfMax(hits)).getGoal().getAction() + ".");
+				System.out.print(findActor(l) + " plan(s) to " + associations.get(l).get(indexOfMax(hits)).getGoal().getAction() + ".");
+			}
+			if(hits.get(indexOfMax(hits)) < 2) {
+				System.out.println(" (Weak)");
+			} else if (hits.get(indexOfMax(hits)) < 3) {
+				System.out.println(" (Medium)");
+			} else {
+				System.out.println(" (Strong)");
 			}
 		}
 	}

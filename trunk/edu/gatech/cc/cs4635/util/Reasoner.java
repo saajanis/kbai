@@ -1,6 +1,5 @@
 package edu.gatech.cc.cs4635.util;
 
-import edu.gatech.cc.cs4635.core.Internals;
 import edu.gatech.cc.cs4635.lang.ActionFrame;
 import edu.gatech.cc.cs4635.lang.ActionFrameSlot;
 import edu.gatech.cc.cs4635.lang.Logbook;
@@ -17,6 +16,7 @@ public class Reasoner {
 				if(a.getFiller(ActionFrameSlot.PRECONDITION) != null) {
 					if(a.getFiller(ActionFrameSlot.PRECONDITION).getHeader().equals("none")) {
 						Logbook chain = new Logbook();
+						//System.out.println("Start building!");
 						buildChain(l, chain, a);
 						chains.add(chain);
 					}
@@ -25,10 +25,14 @@ public class Reasoner {
 		}
 		
 		System.err.println("Reasoner Output (Causal Chain)");
+		
 		for(Logbook l : chains) {
 			System.out.println(".:Chain:.");
 			l.debug();
+			System.out.print("\n");
 		}
+		
+		
 		
 		//Internals.GLOSSARY.get("robbers").debug();
 	}
@@ -42,11 +46,15 @@ public class Reasoner {
 		for(String key : cluster.entries()) {
 			ActionFrame b = cluster.get(key);
 			//System.err.println(b.getAction());
-			String pre = b.getFiller(ActionFrameSlot.PRECONDITION).getHeader();
-			String post = a.getFiller(ActionFrameSlot.POSTCONDITION).getHeader();
-			if(pre.equals(a.getAction()) && post.equals(b.getAction())) {
-				buildChain(cluster, chain, b);
-				return;
+			if(b.getFiller(ActionFrameSlot.PRECONDITION) != null) {
+				String pre = b.getFiller(ActionFrameSlot.PRECONDITION).getHeader();
+				String post = a.getFiller(ActionFrameSlot.POSTCONDITION).getHeader();
+				//System.out.println(pre + "," + post);
+				//System.out.println(pre.length() + "," + post.length());
+				if(pre.equals(post) && !pre.equals("none")) {
+					buildChain(cluster, chain, b);
+					return;
+				}
 			}
 		}
 	}
