@@ -43,6 +43,8 @@ public class Application {
 		planner.associate(reasoner.getChains());
 		//planner.displayAssociations();
 		
+		System.out.println("\n\n<<<RESULTS>>>");
+		
 		Arbiter arbiter = new Arbiter();
 		arbiter.evaluate(planner.getAssociations());
 		
