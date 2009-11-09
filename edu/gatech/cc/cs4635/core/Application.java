@@ -6,6 +6,7 @@ import edu.gatech.cc.cs4635.util.Categorizer;
 import edu.gatech.cc.cs4635.util.Parser;
 import edu.gatech.cc.cs4635.util.Planner;
 import edu.gatech.cc.cs4635.util.Reasoner;
+import edu.gatech.cc.cs4635.util.htn.HTNArbiter;
 import edu.gatech.cc.cs4635.util.htn.HTNParser;
 import edu.gatech.cc.cs4635.util.htn.HTNPlanner;
 
@@ -53,6 +54,17 @@ public class Application {
 		HTNParser htnparser = new HTNParser();
 		htnparser.generate();
 		Internals.HTNS.debug();
+		
+		HTNPlanner htnplanner = new HTNPlanner();
+		htnplanner.associate(reasoner.getChains());
+		htnplanner.displayAssociations();
+		
+		System.out.println("\n\n<<<RESULTS>>>");
+		
+		HTNArbiter htnarbiter = new HTNArbiter();
+		htnarbiter.evaluate(htnplanner.getAssociations());
+		
+		
 		
 		//Internals.LOGBOOK.debug();
 		
