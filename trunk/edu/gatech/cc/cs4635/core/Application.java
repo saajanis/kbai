@@ -6,6 +6,8 @@ import edu.gatech.cc.cs4635.util.Categorizer;
 import edu.gatech.cc.cs4635.util.Parser;
 import edu.gatech.cc.cs4635.util.Planner;
 import edu.gatech.cc.cs4635.util.Reasoner;
+import edu.gatech.cc.cs4635.util.htn.HTNParser;
+import edu.gatech.cc.cs4635.util.htn.HTNPlanner;
 
 public class Application {
 
@@ -37,17 +39,20 @@ public class Application {
 		Reasoner reasoner = new Reasoner();
 		reasoner.processClusters(categorizer.getClusters());
 		
-		Planner planner = new Planner();
-		planner.generate("planner.txt");
-		planner.debug();
-		planner.associate(reasoner.getChains());
-		//planner.displayAssociations();
+//		Planner planner = new Planner();
+//		planner.generate("planner.txt");
+//		planner.debug();
+//		planner.associate(reasoner.getChains());
+//		//planner.displayAssociations();
+//		
+//		System.out.println("\n\n<<<RESULTS>>>");
+//		
+//		Arbiter arbiter = new Arbiter();
+//		arbiter.evaluate(planner.getAssociations());
 		
-		System.out.println("\n\n<<<RESULTS>>>");
-		
-		Arbiter arbiter = new Arbiter();
-		arbiter.evaluate(planner.getAssociations());
-		
+		HTNParser htnparser = new HTNParser();
+		htnparser.generate();
+		Internals.HTNS.debug();
 		
 		//Internals.LOGBOOK.debug();
 		
