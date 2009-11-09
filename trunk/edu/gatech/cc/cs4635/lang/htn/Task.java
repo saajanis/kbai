@@ -39,6 +39,10 @@ public class Task {
 		debug();
 	}
 	
+	public FastMap<String, Method> internal() {
+		return storage;
+	}
+	
 	public final void debug() {
 		for(String key : storage.keySet()) {
 			storage.get(key).verbose();

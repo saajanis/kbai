@@ -3,7 +3,6 @@ package edu.gatech.cc.cs4635.lang.htn;
 import javolution.util.FastMap;
 import edu.gatech.cc.cs4635.lang.ActionFrame;
 import edu.gatech.cc.cs4635.lang.htn.Plan;
-import edu.gatech.cc.cs4635.lang.base.Storage;
 
 public class Method {
 	
@@ -21,10 +20,23 @@ public class Method {
 		return storage.remove(key);
 	}
 	
+	public FastMap<String, Plan> internal() {
+		return storage;
+	}
+	
 	private ActionFrame goal;
+	private ActionFrame superGoal;
 	
 	public Method(ActionFrame frame) {
 		setGoal(frame);
+	}
+	
+	public void setSuperGoal(ActionFrame frame) {
+		superGoal = frame;
+	}
+	
+	public ActionFrame getSuperGoal() {
+		return superGoal;
 	}
 
 	public void setGoal(ActionFrame frame) {

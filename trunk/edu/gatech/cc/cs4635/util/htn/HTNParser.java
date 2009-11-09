@@ -80,6 +80,7 @@ public class HTNParser {
 				currentPlan = null;
 			}
 			currentMethod = new Method(new ActionFrame(tokens.get(1), tokens.get(2)));
+			currentMethod.setSuperGoal(currentTask.getGoal());
 			break;
 		case 4:
 			if(currentPlan != null) {
