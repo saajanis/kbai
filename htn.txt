@@ -1,0 +1,72 @@
+1,get-rich
+1,1,rob-a-store
+1,1,1,get-a-gun
+(1 (get( robbers , gun , , , )))
+1,1,2,drive-to-store
+(2 (get-in( robbers , , car , , )))
+(3 (drive-to( robbers, , market , , )))
+(4 (parked( robbers , , car , , )))
+(5 (walked-toward( robbers , , market , , )))
+1,1,3,steal-money
+(6 (point( robbers , gun, clerk , , )))
+(7 (take( robbers , money , , , )))
+1,1,4,escape
+(8 (run-to( robbers, car , , , )))
+(9 (drive-away( robbers , , , , )))
+1,2,commit-fraud
+1,2,1,forge-documents
+(1 (make( person , fake-check , , , )))
+(2 (make( person , fake-id , , , )))
+1,2,2,go-to-store
+(3 (go-to( person , , store , , )))
+1,2,3,pick-item
+(4 (get( person , object , , , )))
+1,2,4,purchase
+(5 (give( person , clerk , fake-check , , )))
+(6 (give( person , clerk , fake-id , , )))
+(7 (take( person , object , , , )))
+1,2,5,escape
+(8 (run-away( person , , , , )))
+(9 (get-away( person , , , , )))
+1,3,hijack-a-car
+1,3,1,wait-for-victim
+(1 (entered-car( victim , , , , )))
+(2 (came-from( suspect , , behind-bushes , , )))
+1,3,2,remove-victim
+(3 (opened( suspect , , car-door , , )))
+(4 (pulled-from ( suspect , , victim, car, )))
+1,3,3,disable-victim
+(5 (hit( suspect , victim , head , , )))
+(6 (knocked-down( suspect , victim , , , )))
+1,3,4,escape
+(7 (entered( suspect , , car , , )))
+(8 (drove-away( suspect , , , , )))
+1,4,snatch-purse
+1,4,1,spot-a-victim
+(1 (has-a( victim , purse , , , )))
+1,4,2,take-purse
+(2 (came-from( suspect , , behind-bushes , , )))
+(3 (attempted-snatch( suspect , , purse , , )))
+(4 (snatch( suspect , , purse , , )))
+1,4,3,escape
+(5 (ran-away-with( suspect , , purse , , )))
+2,become-a-public-figure
+2,1,get-elected
+2,1,1,campaign-for-office
+(1 (runs-for( politician , , office , , )))
+(2 (raise( politician , money , , , )))
+(3 (campaign( politician , , , , )))
+2,1,2,get-voted-for
+(4 (vote( , politician , , , )))
+2,1,3,be-victorious
+(5 (elected( politician , , office , , )))
+2,2,find-an-answer
+2,2,1,find-an-important-problem
+(1 (had-problem( , , object , , )))
+2,2,2,make-a-promise
+(2 (asked-to-investigate( problem , , object , , )))
+(3 (pledged-answer( person , , object , , )))
+2,2,3,find-the-answer
+(4 (investigate( person , , object , , )))
+2,2,4,announce-the-answer
+(5 (report( person , answer , , , )))
