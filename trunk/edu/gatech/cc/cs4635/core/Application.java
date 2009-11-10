@@ -12,6 +12,8 @@ import edu.gatech.cc.cs4635.util.htn.HTNPlanner;
 
 public class Application {
 
+	public static int sensitivity = 0;
+
 	/**
 	 * @param args
 	 */
@@ -24,6 +26,10 @@ public class Application {
 		
 		Parser parser = new Parser();
 		parser.generate(args[0], args[1]);
+		
+		if(args.length == 3) {
+			sensitivity = new Integer(args[2]).intValue();
+		}
 		
 		//Internals.GLOSSARY.get("steamy-photos").debug();
 		

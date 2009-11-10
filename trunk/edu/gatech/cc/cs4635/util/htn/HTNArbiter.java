@@ -2,6 +2,7 @@ package edu.gatech.cc.cs4635.util.htn;
 
 import javolution.util.FastList;
 import javolution.util.FastMap;
+import edu.gatech.cc.cs4635.core.Application;
 import edu.gatech.cc.cs4635.lang.ActionFrame;
 import edu.gatech.cc.cs4635.lang.ActionFrameSlot;
 import edu.gatech.cc.cs4635.lang.Logbook;
@@ -32,28 +33,32 @@ public class HTNArbiter {
 			System.out.println("<<Chain>>");
 			l.debug();
 			System.out.println("<<Plan>>");
-			System.out.println("* " + associations.get(l).get(indexOfMax(hits)).getSuperGoal().getAction());
-			associations.get(l).get(indexOfMax(hits)).verbose();
-			System.out.print("Goal: ");
-			if(associations.get(l).size() > 1) {
-				System.out.print(findActor(l) + " most likely plan(s) to " + associations.get(l).get(indexOfMax(hits)).getSuperGoal().getAction() + " by ");
+			if(associations.get(l).size() < 1) {
+				System.out.println("No matches. Decrease the sensitivity?");
 			} else {
-				System.out.print(findActor(l) + " plan(s) to " + associations.get(l).get(indexOfMax(hits)).getSuperGoal().getAction() + " by ");
+				System.out.println("* " + associations.get(l).get(indexOfMax(hits)).getSuperGoal().getAction());
+				associations.get(l).get(indexOfMax(hits)).verbose();
+				System.out.print("Goal: ");
+				if(associations.get(l).size() > 1) {
+					System.out.print(findActor(l) + " most likely plan(s) to " + associations.get(l).get(indexOfMax(hits)).getSuperGoal().getAction() + " by ");
+				} else {
+					System.out.print(findActor(l) + " plan(s) to " + associations.get(l).get(indexOfMax(hits)).getSuperGoal().getAction() + " by ");
+				}
+				System.out.print(associations.get(l).get(indexOfMax(hits)).getGoal().getAction() + ". ");
+				if(hits.get(indexOfMax(hits)) < 2 * (Application.sensitivity+1)) {
+					System.out.println(" (Weak)");
+				} else if (hits.get(indexOfMax(hits)) < 3 * (Application.sensitivity+1)) {
+					System.out.println(" (Medium)");
+				} else {
+					System.out.println(" (Strong)");
+				}
+				System.out.print("Planned steps: ");
+				String output = "";
+				for(String p : associations.get(l).get(indexOfMax(hits)).internal().keySet()) {
+					output += associations.get(l).get(indexOfMax(hits)).get(p).getGoal().getAction() + ", ";
+				}
+				System.out.print(output.substring(0, output.length()-2) + "\n");
 			}
-			System.out.print(associations.get(l).get(indexOfMax(hits)).getGoal().getAction() + ". ");
-			if(hits.get(indexOfMax(hits)) < 2) {
-				System.out.println(" (Weak)");
-			} else if (hits.get(indexOfMax(hits)) < 3) {
-				System.out.println(" (Medium)");
-			} else {
-				System.out.println(" (Strong)");
-			}
-			System.out.print("Planned steps: ");
-			String output = "";
-			for(String p : associations.get(l).get(indexOfMax(hits)).internal().keySet()) {
-				output += associations.get(l).get(indexOfMax(hits)).get(p).getGoal().getAction() + ", ";
-			}
-			System.out.print(output.substring(0, output.length()-2) + "\n");
 		}
 	}
 	
