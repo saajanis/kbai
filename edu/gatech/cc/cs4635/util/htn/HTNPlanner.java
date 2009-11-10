@@ -3,6 +3,7 @@ package edu.gatech.cc.cs4635.util.htn;
 import javolution.util.FastList;
 import javolution.util.FastMap;
 
+import edu.gatech.cc.cs4635.core.Application;
 import edu.gatech.cc.cs4635.core.Internals;
 import edu.gatech.cc.cs4635.lang.ActionFrame;
 import edu.gatech.cc.cs4635.lang.Logbook;
@@ -32,7 +33,7 @@ public class HTNPlanner {
 							}
 						}
 					}
-					if(hits > 0) {
+					if(hits > Application.sensitivity) {
 						associations.get(l).add(t.get(m));
 					}
 				}
